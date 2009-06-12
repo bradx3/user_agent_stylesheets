@@ -1,18 +1,52 @@
 h1. UserAgentStylesheets
 
-
+A user agent parser, primarily designed to easily deliver browser-based css overrides.
 
 h2. Limitations
 
+Many limitations. No nice syntactic sugar. No seperation of browser names and
+their versions. No support for browser forks (e.g. AOL, Iceweasel, etc.)
+
+Also bear in mind that this approach will not be appropriate for everyone.
 
 h2. Running the tests
 
+I like to use:
+<pre><code>
+spec spec/**/* --format=nested
+</code></pre>
+
+The --format=nested is entirely optional, but it gives you a good overview of the
+supported browsers.
+
 h3. Usage
+
+Currently, the usage is fairly basic, and reflects very basic requirements. It will be improved in time.
+
+To install these facilities into a rails project, give the following command
+from RAILS_ROOT (Git is required):
+
+<pre><code>
+script/plugin install git://github.com/eshopworks/user_agent_stylesheets.git
+</code></pre>
+
 
 In a helper:
 <pre><code>
-  def browser_stylesheets
-    #Something. Not yet worked out.
+ def browser_stylesheet_tag
+    parser = UserAgent::Parser.new(request.user_agent)
+    stylesheet = ""
+    stylesheet = "opera" if parser.browser == :opera
+    stylesheet = "safariWin" if parser.browser == :safari && parser.operating_system == :windows
+    stylesheet = "safari" if parser.browser == :safari && parser.operating_system == :mac
+    stylesheet = "chrome" if parser.browser == :chrome
+    stylesheet = "firefox" if parser.browser == :firefox
+    stylesheet = "firefoxMac" if parser.browser == :firefox && parser.operating_system == :mac
+    stylesheet = "ie6" if parser.browser == :ie6
+    stylesheet = "ie7" if parser.browser == :ie7
+    stylesheet = "ie8" if parser.browser == :ie8
+
+    stylesheet_link_tag(stylesheet) if(parser.browser != "")
   end
 </code></pre>
 
@@ -20,7 +54,7 @@ In a helper:
 ... then in your view:
 <pre><code>
   stylesheet_link_tag :defaults, :cache => true
-  browser_stylesheets
+  browser_stylesheet_tag
 </code></pre>
 
 
