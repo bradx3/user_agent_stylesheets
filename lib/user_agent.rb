@@ -24,5 +24,16 @@ module UserAgent
         :safari
       end
     end
+
+    def operating_system
+      case @useragent
+      when /.*Windows;.*/ then
+        :windows
+      when /.*Linux.*/ then
+        :linux
+      when /.*Macintosh.*/ then
+        :mac
+      end
+    end
   end
 end

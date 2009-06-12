@@ -33,12 +33,35 @@ describe UserAgent::Parser do
                   { :name => 'Safari',
                     :useragent => 'Mozilla/5.0 (Windows; U; Windows NT 5.2; en-US) AppleWebKit/525.18 (KHTML, like Gecko) Version/3.1.1 Safari/525.17',
                     :browser => :safari
-                  },
+                  }
                  ]
     signatures.each do |sig|
       it "should recognise #{sig[:name]}" do
         parser = UserAgent::Parser.new(sig[:useragent])
         parser.browser.should == sig[:browser]
+      end
+    end
+  end
+
+  describe "operating system recognition" do
+        signatures = [
+                  { :name => 'Linux',
+                    :useragent => 'Mozilla/5.0 (X11; U; Linux x86_64; en-US; rv:1.9.0.10) Gecko/2009042523 Ubuntu/8.10 (intrepid) Firefox/3.0.10',
+                    :os => :linux
+                  },
+                  { :name => 'Microsoft Windows',
+                    :useragent => 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-GB; rv:1.9.0.10) Gecko/2009042316 Firefox/3.0.10 (.NET CLR 3.5.30729)',
+                    :os => :windows
+                  },
+                  { :name => 'MacOS',
+                    :useragent => 'Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.0.10) Gecko/2009042315 Firefox/3.0.1',
+                    :os => :mac
+                  }
+                 ]
+    signatures.each do |sig|
+      it "should recognise #{sig[:name]}" do
+        parser = UserAgent::Parser.new(sig[:useragent])
+        parser.operating_system.should == sig[:os]
       end
     end
   end
