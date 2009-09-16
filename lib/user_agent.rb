@@ -27,7 +27,7 @@ module UserAgent
 
     def operating_system
       case @useragent
-      when /.*Windows;.*/ then
+      when /.*Windows.*/ then
         :windows
       when /.*Linux.*/ then
         :linux
