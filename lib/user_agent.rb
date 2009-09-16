@@ -33,6 +33,8 @@ module UserAgent
         :linux
       when /.*Macintosh.*/ then
         :mac
+      when /.*iPhone.*/ then
+        :iphone
       end
     end
   end
